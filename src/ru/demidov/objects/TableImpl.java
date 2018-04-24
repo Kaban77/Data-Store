@@ -23,7 +23,7 @@ public class TableImpl implements Table {
         if(column == 0) {
             return null;
         }
-        return data[row][column - 1];
+        return data[row][column];
     }
 
     @Override
@@ -31,8 +31,9 @@ public class TableImpl implements Table {
         if(row < 0 || row >= this.row || column < 0 || column >= this.column) {
             throw new InvalidIndexException("Invalid row number or column number");
         }
+        String temp = data[row][column];
         data[row][column] = value;
 
-        return data[row][column - 1];
+        return temp;
     }
 }

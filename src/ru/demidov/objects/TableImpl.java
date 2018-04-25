@@ -3,16 +3,18 @@ package ru.demidov.objects;
 import ru.demidov.exceptions.InvalidIndexException;
 import ru.demidov.interfaces.Table;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class TableImpl implements Table {
 
     private int column;
     private int row;
-    private String[][] data;
+    private HashMap<ArrayList<Integer>, String> data = new HashMap<ArrayList<Integer>, String>();
 
     public TableImpl(int row, int column) {
         this.column = column;
         this.row = row;
-        data = new String[row][column];
     }
 
     @Override
@@ -23,7 +25,11 @@ public class TableImpl implements Table {
         if(column == 0) {
             return null;
         }
-        return data[row][column];
+        var key = new ArrayList<Integer>();
+        key.add(0, row);
+        key.add(1, column);
+
+        return data.get(key);
     }
 
     @Override
@@ -31,8 +37,12 @@ public class TableImpl implements Table {
         if(row < 0 || row >= this.row || column < 0 || column >= this.column) {
             throw new InvalidIndexException("Invalid row number or column number");
         }
-        String temp = data[row][column];
-        data[row][column] = value;
+        var key = new ArrayList<Integer>();
+        key.add(0, row);
+        key.add(1, column);
+
+        String temp = data.get(key);
+        data.put(key, value);
 
         return temp;
     }
